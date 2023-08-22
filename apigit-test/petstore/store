@@ -1,0 +1,105 @@
+[
+	{
+		"type": "code",
+		"description": "initialization",
+		"parameters": {
+			"code": "var baseUrl = env.get(\"baseUrl\");\nif (baseUrl == null) {\n    state.baseUrl = \"http://petstore.mock.apigit.com\";\n    //env.set(\"baseUrl\", \"http://petstore.mock.apigit.com\")\n}"
+		}
+	},
+	{
+		"type": "http",
+		"description": "get pet inventories by status",
+		"parameters": {
+			"method": "get",
+			"url": "{baseUrl}/store/inventory",
+			"query": [],
+			"auth": {
+				"type": "none"
+			},
+			"header": [],
+			"body": {
+				"type": "none",
+				"data": ""
+			},
+			"postTest": "if (!res || res.status !== 200) {\n    fail(\"get pet inventory failed\")\n}"
+		}
+	},
+	{
+		"type": "http",
+		"description": "place an order for a pet",
+		"parameters": {
+			"method": "post",
+			"url": "{baseUrl}/store/order",
+			"query": [],
+			"auth": {
+				"type": "none"
+			},
+			"header": [
+				{
+					"name": "content-type",
+					"value": "application/json",
+					"enabled": true
+				}
+			],
+			"body": {
+				"type": "application/json",
+				"data": "{\n  \"id\": 11,\n  \"petId\": 198772,\n  \"quantity\": 7,\n  \"shipDate\": \"2023-01-14T19:25:54.211Z\",\n  \"status\": \"approved\",\n  \"complete\": true\n}"
+			},
+			"postTest": "if (!res || res.status !== 200) {\n    failed(\"place purchae order failed\")\n    return;\n}\n\nvar order = res.data;\nstate.orderId = order.id;"
+		}
+	},
+	{
+		"type": "http",
+		"description": "find purchase Order by ID",
+		"parameters": {
+			"method": "get",
+			"url": "{baseUrl}/store/order/{orderId}",
+			"query": [],
+			"auth": {
+				"type": "none"
+			},
+			"header": [],
+			"body": {
+				"type": "none",
+				"data": ""
+			},
+			"postTest": "if (!res || res.status !== 200) {\n    fail(\"get order by ID failed\")\n}"
+		}
+	},
+	{
+		"type": "http",
+		"description": "delete purchase Order by ID",
+		"parameters": {
+			"method": "delete",
+			"url": "{baseUrl}/store/order/{orderId}",
+			"query": [],
+			"auth": {
+				"type": "none"
+			},
+			"header": [],
+			"body": {
+				"type": "none",
+				"data": ""
+			},
+			"postTest": "if (!res || res.status !== 200) {\n    fail(\"delete order by ID failed\");\n}"
+		}
+	},
+	{
+		"type": "http",
+		"description": "find purchase Order by ID",
+		"parameters": {
+			"method": "get",
+			"url": "{baseUrl}/store/order/{orderId}",
+			"query": [],
+			"auth": {
+				"type": "none"
+			},
+			"header": [],
+			"body": {
+				"type": "none",
+				"data": ""
+			},
+			"postTest": "if (!res || res.status !== 404) {\n    fail(\"get deleted order by ID test failed\");\n}"
+		}
+	}
+]

@@ -1,0 +1,158 @@
+[
+	{
+		"type": "code",
+		"description": "initialization",
+		"parameters": {
+			"code": "var baseUrl = env.get(\"baseUrl\");\nif (baseUrl == null) {\n    state.baseUrl = \"http://petstore.mock.apigit.com\";\n    //env.set(\"baseUrl\", \"http://petstore.mock.apigit.com\")\n}\n"
+		}
+	},
+	{
+		"type": "http",
+		"description": "list all pets in store",
+		"parameters": {
+			"method": "get",
+			"url": "{baseUrl}/pet",
+			"query": [],
+			"auth": {
+				"type": "none"
+			},
+			"header": [],
+			"body": {
+				"type": "none",
+				"data": ""
+			},
+			"postTest": "if (!res || res.status !== 200) {\n\tfail(\"status is not 200\");\n\treturn;\n}\n"
+		}
+	},
+	{
+		"type": "http",
+		"description": "add a new pet to the store",
+		"parameters": {
+			"method": "post",
+			"url": "{baseUrl}/pet",
+			"query": [],
+			"auth": {
+				"type": "none"
+			},
+			"header": [
+				{
+					"name": "content-type",
+					"value": "application/json",
+					"enabled": true
+				}
+			],
+			"body": {
+				"type": "application/json",
+				"data": "{\n  \"id\": 10,\n  \"name\": \"doggie\",\n  \"category\": {\n    \"id\": 1,\n    \"name\": \"Dogs\"\n  },\n  \"photoUrls\": [\n    \"string\"\n  ],\n  \"tags\": [\n    {\n      \"id\": 0,\n      \"name\": \"string\"\n    }\n  ],\n  \"status\": \"available\"\n}"
+			},
+			"postTest": "if (!res || res.status !== 200) {\n    fail(\"add pet to store failed\")\n    return\n}\n\nvar body = res.data;\n\n// save petId to varible\nstate.petId = body.id;\n"
+		}
+	},
+	{
+		"type": "http",
+		"description": "find pets by status",
+		"parameters": {
+			"method": "get",
+			"url": "{baseUrl}/pet/findbystatus",
+			"query": [
+				{
+					"name": "status",
+					"value": "available",
+					"enabled": true
+				}
+			],
+			"auth": {
+				"type": "none"
+			},
+			"header": [],
+			"body": {
+				"type": "none",
+				"data": ""
+			},
+			"postTest": "if (!res || res.status !== 200) {\n    fail(\"get pet by status failed\")\n}"
+		}
+	},
+	{
+		"type": "http",
+		"description": "find pet by ID",
+		"parameters": {
+			"method": "get",
+			"url": "{baseUrl}/pet/{petId}",
+			"query": [],
+			"auth": {
+				"type": "none"
+			},
+			"header": [],
+			"body": {
+				"type": "none",
+				"data": ""
+			},
+			"postTest": "if (!res || res.status !== 200) {\n    fail(\"get pet by petId failed\")\n}"
+		}
+	},
+	{
+		"type": "http",
+		"description": "update a pet in the store with form data",
+		"parameters": {
+			"method": "post",
+			"url": "{baseUrl}/pet/{petId}",
+			"query": [
+				{
+					"name": "name",
+					"value": "hello",
+					"enabled": true
+				},
+				{
+					"name": "status",
+					"value": "sold",
+					"enabled": true
+				}
+			],
+			"auth": {
+				"type": "none"
+			},
+			"header": [],
+			"body": {
+				"type": "none",
+				"data": ""
+			},
+			"postTest": "if (!res || res.status !== 200) {\n    fail(\"update pet by ID failed\")\n}"
+		}
+	},
+	{
+		"type": "http",
+		"description": "delete a pet",
+		"parameters": {
+			"method": "delete",
+			"url": "{baseUrl}/pet/{petId}",
+			"query": [],
+			"auth": {
+				"type": "none"
+			},
+			"header": [],
+			"body": {
+				"type": "none",
+				"data": ""
+			},
+			"postTest": "if (!res || res.status !== 200) {\n    fail(\"delete pet by ID failed\");\n}"
+		}
+	},
+	{
+		"type": "http",
+		"description": "find pet by ID",
+		"parameters": {
+			"method": "get",
+			"url": "{baseUrl}/pet/{petId}",
+			"query": [],
+			"auth": {
+				"type": "none"
+			},
+			"header": [],
+			"body": {
+				"type": "none",
+				"data": ""
+			},
+			"postTest": "if (!res || res.status !== 404) {\n    fail(\"get deleted pet test failed\");\n}"
+		}
+	}
+]

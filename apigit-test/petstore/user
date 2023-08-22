@@ -1,0 +1,174 @@
+[
+	{
+		"type": "code",
+		"description": "initialization",
+		"parameters": {
+			"code": "var baseUrl = env.get(\"baseUrl\");\nif (baseUrl == null) {\n    state.baseUrl = \"http://petstore.mock.apigit.com\";\n    //env.set(\"baseUrl\", \"http://petstore.mock.apigit.com\")\n}"
+		}
+	},
+	{
+		"type": "http",
+		"description": "login user",
+		"parameters": {
+			"method": "get",
+			"url": "{baseUrl}/user/login",
+			"query": [],
+			"auth": {
+				"type": "none"
+			},
+			"header": [],
+			"body": {
+				"type": "none",
+				"data": ""
+			},
+			"postTest": "if (!res || res.status !== 200) {\n    fail(\"login user failed\");\n}"
+		}
+	},
+	{
+		"type": "http",
+		"description": "create user",
+		"parameters": {
+			"method": "post",
+			"url": "{baseUrl}/user",
+			"query": [],
+			"auth": {
+				"type": "none"
+			},
+			"header": [
+				{
+					"name": "content-type",
+					"value": "application/json",
+					"enabled": true
+				}
+			],
+			"body": {
+				"type": "application/json",
+				"data": ""
+			},
+			"postTest": "if (!res || res.status !== 200) {\n    fail(\"create user failed\")\n}\n\nvar user = res.data;\nstate.username = user.username;\nstate.userid = user.id;",
+			"preRequest": "req.data  =  {\n    \"id\": 10,\n    \"username\": \"theUser\" + Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1),\n    \"firstName\": \"John\",\n    \"lastName\": \"James\",\n    \"email\": \"john@email.com\",\n    \"password\": \"12345\",\n    \"phone\": \"12345\",\n    \"userStatus\": 1\n  };"
+		}
+	},
+	{
+		"type": "http",
+		"description": "create a list of users",
+		"parameters": {
+			"method": "post",
+			"url": "{baseUrl}/user/createWithList",
+			"query": [],
+			"auth": {
+				"type": "none"
+			},
+			"header": [
+				{
+					"name": "content-type",
+					"value": "application/json",
+					"enabled": true
+				}
+			],
+			"body": {
+				"type": "application/json",
+				"data": ""
+			},
+			"preRequest": "req.data = [\n  {\n    \"id\": 10,\n    \"username\": \"theUser\" + Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1),\n    \"firstName\": \"John\",\n    \"lastName\": \"James\",\n    \"email\": \"john@email.com\",\n    \"password\": \"12345\",\n    \"phone\": \"12345\",\n    \"userStatus\": 1\n  }\n]",
+			"postTest": "if (!res || res.status !== 200) {\n    fail(\"createWithList failed\")\n}"
+		}
+	},
+	{
+		"type": "http",
+		"description": "get user by name",
+		"parameters": {
+			"method": "get",
+			"url": "{baseUrl}/user/{username}",
+			"query": [],
+			"auth": {
+				"type": "none"
+			},
+			"header": [],
+			"body": {
+				"type": "none",
+				"data": ""
+			},
+			"postTest": "if (!res || res.status !== 200) {\n    fail(\"get user by name failed\")\n}"
+		}
+	},
+	{
+		"type": "http",
+		"description": "update user by name",
+		"parameters": {
+			"method": "put",
+			"url": "{baseUrl}/user/{username}",
+			"query": [],
+			"auth": {
+				"type": "none"
+			},
+			"header": [
+				{
+					"name": "content-type",
+					"value": "application/json",
+					"enabled": true
+				}
+			],
+			"body": {
+				"type": "application/json",
+				"data": ""
+			},
+			"postTest": "if (!res || res.status !== 200) {\n    fail(\"update user by name failed\");\n}",
+			"preRequest": "req.data = {\n  \"id\": state.userid,\n  \"username\": state.username,\n  \"firstName\": \"hello\",\n  \"lastName\": \"world\",\n  \"email\": \"hellowrold@email.com\",\n  \"password\": \"12345\",\n  \"phone\": \"12345\",\n  \"userStatus\": 1\n};"
+		}
+	},
+	{
+		"type": "http",
+		"description": "delete user by name",
+		"parameters": {
+			"method": "delete",
+			"url": "{baseUrl}/user/{username}",
+			"query": [],
+			"auth": {
+				"type": "none"
+			},
+			"header": [],
+			"body": {
+				"type": "none",
+				"data": ""
+			},
+			"postTest": "if (!res || res.status !== 200) {\n    fail(\"delete user by username failed\");\n}"
+		}
+	},
+	{
+		"type": "http",
+		"description": "get the user again after delete",
+		"parameters": {
+			"method": "get",
+			"url": "{baseUrl}/user/{username}",
+			"query": [],
+			"auth": {
+				"type": "none"
+			},
+			"header": [],
+			"body": {
+				"type": "none",
+				"data": ""
+			},
+			"postTest": "if (!res || res.status !== 404) {\n    fail(\"get deleted user by username test failed.\")\n}"
+		}
+	},
+	{
+		"type": "http",
+		"description": "logout user",
+		"parameters": {
+			"method": "get",
+			"url": "{baseUrl}/user/logout",
+			"query": [],
+			"auth": {
+				"type": "none"
+			},
+			"header": [],
+			"body": {
+				"type": "none",
+				"data": ""
+			},
+			"postTest": "if (!res || res.status !== 200) {\n    fail(\"logout user failed\");\n}"
+		}
+	}
+]
