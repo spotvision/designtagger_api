@@ -2,7 +2,7 @@
   "openapi": "3.0.2",
   "info": {
     "title": "Swagger Petstore - OpenAPI 3.0",
-    "description": "This is a sample Pet Store Server based on the OpenAPI 3.0 specification.  You can find out more about\nSwagger at [http://swagger.io](http://swagger.io). In the third iteration of the pet store, we've switched to the design first approach!\nYou can now help us improve the API whether it's by making changes to the definition itself or to the code.\nThat way, with time, we can improve the API in general, and expose some of the new features in OAS3.\n\nSome useful links:\n- [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)\n- [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)",
+    "description": "This is the API specification for Spot Vision LLC's Design Tagger™ system. Using this API, you can\n* Create new Tags\n* ",
     "termsOfService": "http://swagger.io/terms/",
     "contact": {
       "email": "apiteam@swagger.io"
@@ -53,11 +53,35 @@
         "tags": [
           "designs"
         ],
-        "parameters": [],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "design-id",
+            "description": "ID of design to return (default=all)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "description": "Design name",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {},
         "responses": {
           "200": {
-            "description": "List of designs is provided."
+            "description": "List of designs is provided.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           },
           "403": {
             "description": "Invalid api key."
@@ -167,17 +191,6 @@
         "responses": {}
       }
     },
-    "/tags/create": {
-      "post": {
-        "summary": "Create a new design tag",
-        "description": "Formatted text here",
-        "operationId": "",
-        "tags": [],
-        "parameters": [],
-        "requestBody": {},
-        "responses": {}
-      }
-    },
     "/scans": {
       "get": {
         "description": "",
@@ -188,6 +201,66 @@
         "parameters": [],
         "requestBody": {},
         "responses": {}
+      }
+    },
+    "/tags/image": {
+      "get": {
+        "tags": [
+          "tag"
+        ],
+        "summary": "Tags",
+        "description": "Multiple status values can be provided with comma separated strings",
+        "operationId": "tags",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tag-id",
+            "description": "ID of tag to image (default=all)",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "resolution",
+            "description": "Resolution in pixels (NxN)",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Pet"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Pet"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     }
   },
@@ -328,26 +401,43 @@
             "type": "string",
             "description": "IP address of scanning client"
           },
-          "city": {
-            "type": "string",
-            "description": "City where scanned"
-          },
-          "region": {
-            "type": "string",
-            "description": "Region (e.g. State) where scanned"
-          },
-          "country": {
-            "type": "string",
-            "description": "Country where scanned"
+          "location": {
+            "type": "object",
+            "properties": {
+              "region": {
+                "type": "string",
+                "description": "Region (e.g. State) where scanned"
+              },
+              "country": {
+                "type": "string",
+                "description": "Country where scanned"
+              },
+              "city": {
+                "type": "string",
+                "description": "City where scanned"
+              },
+              "longitude": {
+                "type": "number",
+                "description": "Approximate longitude of scan"
+              },
+              "latitude": {
+                "type": "number",
+                "description": "Approximate latitude of scan"
+              }
+            },
+            "required": [
+              "region",
+              "country",
+              "city",
+              "longitude",
+              "latitude"
+            ]
           }
         },
         "required": [
           "tag_name",
           "scan_time",
-          "ip_address",
-          "city",
-          "region",
-          "country"
+          "ip_address"
         ]
       },
       "ApiResponse": {
