@@ -71,7 +71,15 @@
             }
           }
         ],
-        "requestBody": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "List of designs is provided.",
