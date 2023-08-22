@@ -45,134 +45,35 @@
     }
   ],
   "paths": {
-    "/pet": {
-      "put": {
-        "tags": [
-          "pet"
-        ],
-        "summary": "Update an existing pet",
-        "description": "Update an existing pet by Id",
-        "operationId": "updatePet",
-        "requestBody": {
-          "description": "Update an existent pet in the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Pet"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/Pet"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/Pet"
-              }
-            }
-          },
-          "required": true
-        },
+    "/designs": {
+      "get": {
+        "summary": "Returns list of available designs.",
+        "description": "",
+        "operationId": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {},
         "responses": {
           "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Pet"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Pet"
-                }
-              }
-            }
+            "description": "List of designs is provided."
           },
-          "400": {
-            "description": "Invalid ID supplied"
-          },
-          "404": {
-            "description": "Pet not found"
-          },
-          "405": {
-            "description": "Validation exception"
+          "403": {
+            "description": "Invalid api key."
           }
         },
         "security": [
           {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
-      },
-      "post": {
-        "tags": [
-          "pet"
-        ],
-        "summary": "Add a new pet to the store",
-        "description": "Add a new pet to the store",
-        "operationId": "addPet",
-        "requestBody": {
-          "description": "Create a new pet in the store",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Pet"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/Pet"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/Pet"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "Successful operation",
-            "content": {
-              "application/xml": {
-                "schema": {
-                  "$ref": "#/components/schemas/Pet"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Pet"
-                }
-              }
-            }
-          },
-          "405": {
-            "description": "Invalid input"
-          }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
+            "api_key": []
           }
         ]
       }
     },
-    "/pet/findByStatus": {
+    "/tags": {
       "get": {
         "tags": [
           "pet"
         ],
-        "summary": "Finds Pets by status",
+        "summary": "Finds tags",
         "description": "Multiple status values can be provided with comma separated strings",
         "operationId": "findPetsByStatus",
         "parameters": [
@@ -229,11 +130,9 @@
         ]
       }
     },
-    "/pet/findByTags": {
+    "/tags/create": {
       "get": {
-        "tags": [
-          "pet"
-        ],
+        "tags": [],
         "summary": "Finds Pets by tags",
         "description": "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
         "operationId": "findPetsByTags",
