@@ -395,81 +395,6 @@
         ]
       }
     },
-    "/store/inventory": {
-      "get": {
-        "tags": [
-          "store"
-        ],
-        "summary": "Returns pet inventories by status",
-        "description": "Returns a map of status codes to quantities",
-        "operationId": "getInventory",
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "additionalProperties": {
-                    "type": "integer",
-                    "format": "int32"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "security": [
-          {
-            "api_key": []
-          }
-        ]
-      }
-    },
-    "/store/order": {
-      "post": {
-        "tags": [
-          "store"
-        ],
-        "summary": "Place an order for a pet",
-        "description": "Place a new order in the store",
-        "operationId": "placeOrder",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Order"
-              }
-            },
-            "application/xml": {
-              "schema": {
-                "$ref": "#/components/schemas/Order"
-              }
-            },
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "$ref": "#/components/schemas/Order"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Order"
-                }
-              }
-            }
-          },
-          "405": {
-            "description": "Invalid input"
-          }
-        }
-      }
-    },
     "/store/order/{orderId}": {
       "get": {
         "tags": [
@@ -496,12 +421,12 @@
             "content": {
               "application/xml": {
                 "schema": {
-                  "$ref": "#/components/schemas/Order"
+                  "$ref": "#/components/schemas/Design"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Order"
+                  "$ref": "#/components/schemas/Design"
                 }
               }
             }
@@ -632,88 +557,6 @@
         }
       }
     },
-    "/user/login": {
-      "get": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Logs user into the system",
-        "description": "",
-        "operationId": "loginUser",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "query",
-            "description": "The user name for login",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "password",
-            "in": "query",
-            "description": "The password for login in clear text",
-            "required": false,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "headers": {
-              "X-Rate-Limit": {
-                "description": "calls per hour allowed by the user",
-                "schema": {
-                  "type": "integer",
-                  "format": "int32"
-                }
-              },
-              "X-Expires-After": {
-                "description": "date in UTC when token expires",
-                "schema": {
-                  "type": "string",
-                  "format": "date-time"
-                }
-              }
-            },
-            "content": {
-              "application/xml": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid username/password supplied"
-          }
-        }
-      }
-    },
-    "/user/logout": {
-      "get": {
-        "tags": [
-          "user"
-        ],
-        "summary": "Logs out current logged in user session",
-        "description": "",
-        "operationId": "logoutUser",
-        "parameters": [],
-        "responses": {
-          "default": {
-            "description": "successful operation"
-          }
-        }
-      }
-    },
     "/user/{username}": {
       "get": {
         "tags": [
@@ -832,225 +675,162 @@
   },
   "components": {
     "schemas": {
-      "Order": {
+      "Design": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 10
-          },
-          "petId": {
-            "type": "integer",
-            "format": "int64",
-            "example": 198772
-          },
-          "quantity": {
-            "type": "integer",
-            "format": "int32",
-            "example": 7
-          },
-          "shipDate": {
+          "name": {
             "type": "string",
-            "format": "date-time"
+            "description": "Name of the design"
           },
-          "status": {
-            "type": "string",
-            "description": "Order Status",
-            "example": "approved",
-            "enum": [
-              "placed",
-              "approved",
-              "delivered"
-            ]
-          },
-          "complete": {
-            "type": "boolean"
+          "repeats": {
+            "type": "boolean",
+            "description": "Does the pattern repeat"
           }
         },
         "xml": {
           "name": "order"
-        }
-      },
-      "Customer": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 100000
-          },
-          "username": {
-            "type": "string",
-            "example": "fehguy"
-          },
-          "address": {
-            "type": "array",
-            "xml": {
-              "name": "addresses",
-              "wrapped": true
-            },
-            "items": {
-              "$ref": "#/components/schemas/Address"
-            }
-          }
         },
-        "xml": {
-          "name": "customer"
-        }
-      },
-      "Address": {
-        "type": "object",
-        "properties": {
-          "street": {
-            "type": "string",
-            "example": "437 Lytton"
-          },
-          "city": {
-            "type": "string",
-            "example": "Palo Alto"
-          },
-          "state": {
-            "type": "string",
-            "example": "CA"
-          },
-          "zip": {
-            "type": "string",
-            "example": "94301"
-          }
-        },
-        "xml": {
-          "name": "address"
-        }
-      },
-      "Category": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 1
-          },
-          "name": {
-            "type": "string",
-            "example": "Dogs"
-          }
-        },
-        "xml": {
-          "name": "category"
-        }
-      },
-      "User": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 10
-          },
-          "username": {
-            "type": "string",
-            "example": "theUser"
-          },
-          "firstName": {
-            "type": "string",
-            "example": "John"
-          },
-          "lastName": {
-            "type": "string",
-            "example": "James"
-          },
-          "email": {
-            "type": "string",
-            "example": "john@email.com"
-          },
-          "password": {
-            "type": "string",
-            "example": "12345"
-          },
-          "phone": {
-            "type": "string",
-            "example": "12345"
-          },
-          "userStatus": {
-            "type": "integer",
-            "description": "User Status",
-            "format": "int32",
-            "example": 1
-          }
-        },
-        "xml": {
-          "name": "user"
-        }
+        "required": [
+          "name",
+          "repeats"
+        ]
       },
       "Tag": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
           "name": {
-            "type": "string"
+            "type": "string",
+            "example": "fehguy",
+            "description": "Unique name of the tag"
+          },
+          "design": {
+            "type": "string",
+            "description": "Design name of the tag"
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Active or disabled"
+          },
+          "created_time": {
+            "type": "string",
+            "description": "Date created"
+          },
+          "last_scanned_time": {
+            "type": "string",
+            "description": "Date last scanned"
+          },
+          "link": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Type of data returned with scan: Image, Text, Web"
+              },
+              "data": {
+                "type": "string",
+                "description": "Text, image URL, or web URL"
+              }
+            },
+            "required": [
+              "type",
+              "data"
+            ],
+            "description": "Data returned to scanning device"
+          },
+          "actions": {
+            "type": "object",
+            "properties": {
+              "endpoint": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "description": "URL of API endpoint"
+                  },
+                  "method": {
+                    "type": "string",
+                    "description": "GET or POST"
+                  },
+                  "body": {
+                    "type": "string",
+                    "description": "BODY (required for POST)"
+                  }
+                },
+                "required": [
+                  "url",
+                  "method"
+                ],
+                "description": "Call an API endpoint"
+              },
+              "sms": {
+                "type": "object",
+                "properties": {
+                  "number": {
+                    "type": "string",
+                    "description": "Phone number to message, format '(xxx) xxx-xxxx'"
+                  },
+                  "body": {
+                    "type": "string",
+                    "description": "Message to send"
+                  }
+                },
+                "required": [
+                  "number",
+                  "body"
+                ],
+                "description": "Message (SMS) a phone (U.S. only)"
+              }
+            },
+            "description": "Actions performed on back-end when scanned"
           }
         },
         "xml": {
-          "name": "tag"
-        }
-      },
-      "Pet": {
+          "name": "customer"
+        },
         "required": [
+          "design",
           "name",
-          "photoUrls"
-        ],
+          "active",
+          "created_time",
+          "link"
+        ]
+      },
+      "Scan": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64",
-            "example": 10
-          },
-          "name": {
+          "tag_name": {
             "type": "string",
-            "example": "doggie"
+            "description": "Name of scanned tag"
           },
-          "category": {
-            "$ref": "#/components/schemas/Category"
-          },
-          "photoUrls": {
-            "type": "array",
-            "xml": {
-              "wrapped": true
-            },
-            "items": {
-              "type": "string",
-              "xml": {
-                "name": "photoUrl"
-              }
-            }
-          },
-          "tags": {
-            "type": "array",
-            "xml": {
-              "wrapped": true
-            },
-            "items": {
-              "$ref": "#/components/schemas/Tag"
-            }
-          },
-          "status": {
+          "scan_time": {
             "type": "string",
-            "description": "pet status in the store",
-            "enum": [
-              "available",
-              "pending",
-              "sold"
-            ]
+            "description": "Time of scan"
+          },
+          "ip_address": {
+            "type": "string",
+            "description": "IP address of scanning client"
+          },
+          "city": {
+            "type": "string",
+            "description": "City where scanned"
+          },
+          "region": {
+            "type": "string",
+            "description": "Region (e.g. State) where scanned"
+          },
+          "country": {
+            "type": "string",
+            "description": "Country where scanned"
           }
         },
-        "xml": {
-          "name": "pet"
-        }
+        "required": [
+          "tag_name",
+          "scan_time",
+          "ip_address",
+          "city",
+          "region",
+          "country"
+        ]
       },
       "ApiResponse": {
         "type": "object",
