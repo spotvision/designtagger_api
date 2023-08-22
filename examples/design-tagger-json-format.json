@@ -125,12 +125,7 @@
             "explode": true,
             "schema": {
               "type": "string",
-              "default": "available",
-              "enum": [
-                "available",
-                "pending",
-                "sold"
-              ]
+              "default": "no-name"
             }
           },
           {
