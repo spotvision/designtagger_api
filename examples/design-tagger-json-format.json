@@ -212,7 +212,40 @@
         "tags": [
           "scans"
         ],
-        "parameters": [],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "design-id",
+            "description": "Unique ID of design (default=all)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "tag-id",
+            "description": "Unique ID of tag (default=all)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "description": "Start date (e.g. 12-01-22)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "description": "End date (e.g. 12-31-22)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "requestBody": {},
         "responses": {
           "200": {
@@ -376,11 +409,11 @@
             "type": "boolean",
             "description": "Active or disabled"
           },
-          "created_time": {
+          "created-time": {
             "type": "string",
             "description": "Date created"
           },
-          "last_scanned_time": {
+          "last-scanned-time": {
             "type": "string",
             "description": "Date last scanned"
           },
@@ -405,7 +438,7 @@
           "actions": {
             "type": "object",
             "properties": {
-              "endpoint": {
+              "api-call": {
                 "type": "object",
                 "properties": {
                   "url": {
@@ -446,7 +479,8 @@
                 "description": "Message (SMS) a phone (U.S. only)"
               }
             },
-            "description": "Actions performed on back-end when scanned"
+            "description": "Actions performed on back-end when scanned",
+            "required": []
           }
         },
         "xml": {
@@ -456,7 +490,7 @@
           "design",
           "name",
           "active",
-          "created_time",
+          "created-time",
           "link"
         ]
       },
