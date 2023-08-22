@@ -1,11 +1,12 @@
 {
   "openapi": "3.0.2",
   "info": {
-    "title": "Swagger Petstore - OpenAPI 3.0",
+    "title": "Spot Vision LLC's Data Tagger™ - OpenAPI 3.0",
     "description": "This is the API specification for Spot Vision LLC's Design Tagger™ system. Using this API, you can\n* Create new Tags\n* ",
-    "termsOfService": "http://swagger.io/terms/",
+    "termsOfService": "https://spotvisionlab.com/TOS",
     "contact": {
-      "email": "apiteam@swagger.io"
+      "email": "support@spotvision.io",
+      "name": "Support"
     },
     "license": {
       "name": "Apache 2.0",
@@ -14,8 +15,8 @@
     "version": "1.0.17"
   },
   "externalDocs": {
-    "description": "Find out more about Swagger",
-    "url": "http://swagger.io"
+    "description": "Find out more about Design Tagger™",
+    "url": "https://spotvisionlab.com/developer"
   },
   "servers": [
     {
