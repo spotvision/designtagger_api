@@ -24,24 +24,24 @@
   ],
   "tags": [
     {
-      "name": "pet",
-      "description": "Everything about your Pets",
+      "name": "tag",
+      "description": "Everything about your Tags",
       "externalDocs": {
-        "description": "Find out more",
-        "url": "http://swagger.io"
+        "description": "",
+        "url": ""
       }
     },
     {
-      "name": "store",
-      "description": "Access to Petstore orders",
+      "name": "designs",
+      "description": "Designs available to you",
       "externalDocs": {
-        "description": "Find out more about our store",
-        "url": "http://swagger.io"
+        "description": "",
+        "url": ""
       }
     },
     {
-      "name": "user",
-      "description": "Operations about user"
+      "name": "scans",
+      "description": "Scans of your tags"
     }
   ],
   "paths": {
@@ -50,7 +50,9 @@
         "summary": "Returns list of available designs.",
         "description": "",
         "operationId": "",
-        "tags": [],
+        "tags": [
+          "designs"
+        ],
         "parameters": [],
         "requestBody": {},
         "responses": {
@@ -71,11 +73,11 @@
     "/tags": {
       "get": {
         "tags": [
-          "pet"
+          "tag"
         ],
-        "summary": "Finds tags",
+        "summary": "Tags",
         "description": "Multiple status values can be provided with comma separated strings",
-        "operationId": "findPetsByStatus",
+        "operationId": "tags",
         "parameters": [
           {
             "name": "status",
@@ -136,70 +138,53 @@
             ]
           }
         ]
+      },
+      "post": {
+        "summary": "",
+        "description": "",
+        "operationId": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {},
+        "responses": {}
+      },
+      "delete": {
+        "summary": "",
+        "description": "",
+        "operationId": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {},
+        "responses": {}
+      },
+      "patch": {
+        "summary": "",
+        "description": "",
+        "operationId": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {},
+        "responses": {}
       }
     },
     "/tags/create": {
-      "get": {
+      "post": {
+        "summary": "Create a new design tag",
+        "description": "Formatted text here",
+        "operationId": "",
         "tags": [],
-        "summary": "Finds Pets by tags",
-        "description": "Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.",
-        "operationId": "findPetsByTags",
-        "parameters": [
-          {
-            "name": "tags",
-            "in": "query",
-            "description": "Tags to filter by",
-            "required": false,
-            "explode": true,
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "successful operation",
-            "content": {
-              "application/xml": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Pet"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/Pet"
-                  }
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Invalid tag value"
-          }
-        },
-        "security": [
-          {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
-          }
-        ]
+        "parameters": [],
+        "requestBody": {},
+        "responses": {}
       }
     },
     "/scans": {
       "get": {
         "description": "",
         "operationId": "",
-        "tags": [],
+        "tags": [
+          "scans"
+        ],
         "parameters": [],
         "requestBody": {},
         "responses": {}
