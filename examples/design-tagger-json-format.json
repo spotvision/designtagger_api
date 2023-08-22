@@ -406,7 +406,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Tag",
+                  "$ref": "#/components/schemas/Identification",
                   "description": "Tag identified in image"
                 }
               }
@@ -621,6 +621,23 @@
         "xml": {
           "name": "##default"
         }
+      },
+      "Identification": {
+        "type": "object",
+        "properties": {
+          "tag-id": {
+            "type": "string",
+            "description": "Unique identifier of tag identified in image"
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Identification result"
+          }
+        },
+        "required": [
+          "tag-id",
+          "success"
+        ]
       }
     },
     "requestBodies": {
