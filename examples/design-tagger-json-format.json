@@ -20,7 +20,8 @@
   },
   "servers": [
     {
-      "url": "/api/v3"
+      "url": "https://us-central1-spotvision-patterns2.cloudfunctions.net/",
+      "description": "Cloud server for Design Tagger™"
     }
   ],
   "tags": [
@@ -58,7 +59,7 @@
           {
             "in": "path",
             "name": "design-id",
-            "description": "ID of design to return (default=all)",
+            "description": "Unique identifier of design to return (default=all)",
             "schema": {
               "type": "string"
             }
@@ -376,6 +377,51 @@
           },
           "401": {
             "description": "Unauthorized."
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/identification": {
+      "post": {
+        "summary": "Submit JPEG image for identification",
+        "description": "Submit a JPEG image for tag identification.",
+        "operationId": "",
+        "tags": [],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "record",
+            "description": "Record this scan to analytics",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "media=image/jpeg"
+        },
+        "responses": {
+          "200": {
+            "description": "Success - JSON results returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Tag",
+                  "description": "Tag identified in image"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Improperly formed request."
+          },
+          "401": {
+            "description": "Unauthorized (invalid or missing api_key in header)"
           }
         },
         "security": [
