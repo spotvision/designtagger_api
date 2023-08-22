@@ -2,15 +2,15 @@
   "openapi": "3.0.2",
   "info": {
     "title": "Spot Vision LLC's Data Tagger™ - OpenAPI 3.0",
-    "description": "This is the API specification for Spot Vision LLC's Design Tagger™ system. Using this API, you can\n* Create new Tags\n* ",
+    "description": "This is the API specification for Spot Vision LLC's Design Tagger™ system. Using this API, you can:\n* Create new Tags\n* Update or Delete your Tags\n* Access your scans\n* Download images of your designs\nEach of the endpoint paths require an api_key passed in with the header. This key is available at [spotvisionlab.com/developer]().",
     "termsOfService": "https://spotvisionlab.com/TOS",
     "contact": {
       "email": "support@spotvision.io",
       "name": "Support"
     },
     "license": {
-      "name": "Apache 2.0",
-      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      "name": "",
+      "url": ""
     },
     "version": "1.0.17"
   },
@@ -170,10 +170,7 @@
         },
         "security": [
           {
-            "petstore_auth": [
-              "write:pets",
-              "read:pets"
-            ]
+            "api_key": []
           }
         ]
       },
@@ -261,7 +258,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     },
     "/tags/image": {
@@ -347,6 +349,14 @@
             "schema": {
               "type": "integer"
             }
+          },
+          {
+            "in": "path",
+            "name": "random",
+            "description": "Return a different variant with each call",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "requestBody": {},
@@ -367,7 +377,12 @@
           "401": {
             "description": "Unauthorized."
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     }
   },
@@ -598,23 +613,17 @@
       }
     },
     "securitySchemes": {
-      "petstore_auth": {
-        "type": "oauth2",
-        "flows": {
-          "implicit": {
-            "authorizationUrl": "https://petstore3.swagger.io/oauth/authorize",
-            "scopes": {
-              "write:pets": "modify pets in your account",
-              "read:pets": "read your pets"
-            }
-          }
-        }
-      },
       "api_key": {
         "type": "apiKey",
         "name": "api_key",
-        "in": "header"
+        "in": "header",
+        "description": "API key supplied by Spot Vision LLC"
       }
     }
-  }
+  },
+  "security": [
+    {
+      "api_key": []
+    }
+  ]
 }
