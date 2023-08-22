@@ -87,7 +87,11 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Design"
+                  },
+                  "description": "List of designs"
                 }
               }
             }
@@ -113,9 +117,9 @@
         "operationId": "tags",
         "parameters": [
           {
-            "name": "status",
+            "name": "tag-name",
             "in": "query",
-            "description": "Status values that need to be considered for filter",
+            "description": "Name of tag",
             "required": false,
             "explode": true,
             "schema": {
@@ -130,8 +134,8 @@
           },
           {
             "in": "path",
-            "name": "tag-name",
-            "description": "Name of tag to retrieve (default=all)",
+            "name": "tag-id",
+            "description": "Unique identifier of tag to retrieve (default=all)",
             "schema": {
               "type": "string"
             }
@@ -145,7 +149,8 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/Pet"
+                    "$ref": "#/components/schemas/Tag",
+                    "description": "tags"
                   }
                 }
               },
@@ -209,7 +214,21 @@
         ],
         "parameters": [],
         "requestBody": {},
-        "responses": {}
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Scan"
+                  },
+                  "description": "List of scans"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/tags/image": {
@@ -270,6 +289,52 @@
             "api_key": []
           }
         ]
+      }
+    },
+    "/designs/image": {
+      "get": {
+        "description": "Retrieve a sample image of the specified design.",
+        "operationId": "",
+        "tags": [
+          "designs"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "design-id",
+            "description": "Unique identifier of the design",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "resolution",
+            "description": "Resolution in pixels (NxN)",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "Success, an image will be returned.",
+            "content": {
+              "others": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is missing or has invalid parameters."
+          },
+          "401": {
+            "description": "Unauthorized."
+          }
+        }
       }
     }
   },
