@@ -47,7 +47,7 @@
     }
   ],
   "paths": {
-    "/designs": {
+    "/designs/{design-id}": {
       "get": {
         "summary": "Returns list of available designs.",
         "description": "",
@@ -108,7 +108,7 @@
         ]
       }
     },
-    "/tags": {
+    "/tags/{tag-id}": {
       "get": {
         "tags": [
           "tag"
@@ -262,7 +262,7 @@
         ]
       }
     },
-    "/tags/image": {
+    "/tags/image/{tag-id}": {
       "get": {
         "tags": [
           "tag"
@@ -322,7 +322,7 @@
         ]
       }
     },
-    "/designs/image": {
+    "/designs/image/{design-id}": {
       "get": {
         "description": "Retrieve a sample image of the specified design.",
         "operationId": "",
@@ -347,7 +347,7 @@
             }
           },
           {
-            "in": "path",
+            "in": "query",
             "name": "random",
             "description": "Return a different variant with each call",
             "schema": {
@@ -455,7 +455,7 @@
           "name": {
             "type": "string",
             "example": "fehguy",
-            "description": "Unique name of the tag"
+            "description": "Name of the tag"
           },
           "design": {
             "type": "string",
