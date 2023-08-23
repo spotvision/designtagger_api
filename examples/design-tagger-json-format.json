@@ -457,9 +457,9 @@
             "example": "fehguy",
             "description": "Name of the tag"
           },
-          "design": {
+          "design-id": {
             "type": "string",
-            "description": "Design name of the tag"
+            "description": "Identifier of the design"
           },
           "active": {
             "type": "boolean",
@@ -543,7 +543,7 @@
           "name": "customer"
         },
         "required": [
-          "design",
+          "design-id",
           "name",
           "active",
           "created-time",
