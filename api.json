@@ -1,0 +1,687 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Spot Vision LLC's Data Tagger™ - OpenAPI 3.0",
+    "description": "This is the API specification for Spot Vision LLC's Design Tagger™ system. Using this API, you can:\n* Create new Tags\n* Update or Delete your Tags\n* Access your scans\n* Download images of your designs\nEach of the endpoint paths require an api_key passed in with the header. This key is available at [spotvisionlab.com/developer]().",
+    "termsOfService": "https://spotvisionlab.com/TOS",
+    "contact": {
+      "email": "support@spotvision.io",
+      "name": "Support"
+    },
+    "license": {
+      "name": "",
+      "url": ""
+    },
+    "version": "1.0.17"
+  },
+  "externalDocs": {
+    "description": "Find out more about Design Tagger™",
+    "url": "https://spotvisionlab.com/developer"
+  },
+  "servers": [
+    {
+      "url": "https://us-central1-spotvision-patterns2.cloudfunctions.net/",
+      "description": "Cloud server for Design Tagger™"
+    }
+  ],
+  "tags": [
+    {
+      "name": "tag",
+      "description": "Everything about your Tags",
+      "externalDocs": {
+        "description": "",
+        "url": ""
+      }
+    },
+    {
+      "name": "designs",
+      "description": "Designs available to you",
+      "externalDocs": {
+        "description": "",
+        "url": ""
+      }
+    },
+    {
+      "name": "scans",
+      "description": "Scans of your tags"
+    }
+  ],
+  "paths": {
+    "/designs/{design-id}": {
+      "get": {
+        "summary": "Returns list of available designs.",
+        "description": "",
+        "operationId": "",
+        "tags": [
+          "designs"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "design-id",
+            "description": "Unique identifier of design to return (default=all)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "description": "Design name",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "List of designs is provided.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Design"
+                  },
+                  "description": "List of designs"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Invalid api key."
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/tags/{tag-id}": {
+      "get": {
+        "tags": [
+          "tag"
+        ],
+        "summary": "Tags",
+        "description": "Multiple status values can be provided with comma separated strings",
+        "operationId": "tags",
+        "parameters": [
+          {
+            "name": "tag-name",
+            "in": "query",
+            "description": "Name of tag",
+            "required": false,
+            "explode": true,
+            "schema": {
+              "type": "string",
+              "default": "no-name"
+            }
+          },
+          {
+            "in": "path",
+            "name": "tag-id",
+            "description": "Unique identifier of tag to retrieve (default=all)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Tag",
+                    "description": "tags"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Tag"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      },
+      "post": {
+        "summary": "",
+        "description": "",
+        "operationId": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {},
+        "responses": {}
+      },
+      "delete": {
+        "summary": "",
+        "description": "",
+        "operationId": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {},
+        "responses": {}
+      },
+      "patch": {
+        "summary": "",
+        "description": "",
+        "operationId": "",
+        "tags": [],
+        "parameters": [],
+        "requestBody": {},
+        "responses": {}
+      }
+    },
+    "/scans": {
+      "get": {
+        "description": "",
+        "operationId": "",
+        "tags": [
+          "scans"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "design-id",
+            "description": "Unique ID of design (default=all)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "tag-id",
+            "description": "Unique ID of tag (default=all)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "start",
+            "description": "Start date (e.g. 12-01-22)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "end",
+            "description": "End date (e.g. 12-31-22)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Scan"
+                  },
+                  "description": "List of scans"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/tags/image/{tag-id}": {
+      "get": {
+        "tags": [
+          "tag"
+        ],
+        "summary": "Tags",
+        "description": "Multiple status values can be provided with comma separated strings",
+        "operationId": "tags",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "tag-id",
+            "description": "ID of tag to image (default=all)",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "resolution",
+            "description": "Resolution in pixels (NxN)",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "content": {
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Tag"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Tag"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/designs/image/{design-id}": {
+      "get": {
+        "description": "Retrieve a sample image of the specified design.",
+        "operationId": "",
+        "tags": [
+          "designs"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "design-id",
+            "description": "Unique identifier of the design",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "resolution",
+            "description": "Resolution in pixels (NxN)",
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "in": "query",
+            "name": "random",
+            "description": "Return a different variant with each call",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {},
+        "responses": {
+          "200": {
+            "description": "Success, an image will be returned.",
+            "content": {
+              "others": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The request is missing or has invalid parameters."
+          },
+          "401": {
+            "description": "Unauthorized."
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    },
+    "/identification": {
+      "post": {
+        "summary": "Submit JPEG image for identification",
+        "description": "Submit a JPEG image for tag identification.",
+        "operationId": "",
+        "tags": [],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "record",
+            "description": "Record this scan to analytics",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "media=image/jpeg"
+        },
+        "responses": {
+          "200": {
+            "description": "Success - JSON results returned",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Identification",
+                  "description": "Tag identified in image"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Improperly formed request."
+          },
+          "401": {
+            "description": "Unauthorized (invalid or missing api_key in header)"
+          }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Design": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the design"
+          },
+          "repeats": {
+            "type": "boolean",
+            "description": "Does the pattern repeat"
+          }
+        },
+        "xml": {
+          "name": "order"
+        },
+        "required": [
+          "name",
+          "repeats"
+        ]
+      },
+      "Tag": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "example": "fehguy",
+            "description": "Name of the tag"
+          },
+          "design-id": {
+            "type": "string",
+            "description": "Identifier of the design"
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Active or disabled"
+          },
+          "created-time": {
+            "type": "string",
+            "description": "Date created"
+          },
+          "last-scanned-time": {
+            "type": "string",
+            "description": "Date last scanned"
+          },
+          "link": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Type of data returned with scan: Image, Text, Web"
+              },
+              "data": {
+                "type": "string",
+                "description": "Text, image URL, or web URL"
+              }
+            },
+            "required": [
+              "type",
+              "data"
+            ],
+            "description": "Data returned to scanning device"
+          },
+          "actions": {
+            "type": "object",
+            "properties": {
+              "api-call": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "description": "URL of API endpoint"
+                  },
+                  "method": {
+                    "type": "string",
+                    "description": "GET or POST"
+                  },
+                  "body": {
+                    "type": "string",
+                    "description": "BODY (required for POST)"
+                  }
+                },
+                "required": [
+                  "url",
+                  "method"
+                ],
+                "description": "Call an API endpoint"
+              },
+              "sms": {
+                "type": "object",
+                "properties": {
+                  "number": {
+                    "type": "string",
+                    "description": "Phone number to message, format '(xxx) xxx-xxxx'"
+                  },
+                  "body": {
+                    "type": "string",
+                    "description": "Message to send"
+                  }
+                },
+                "required": [
+                  "number",
+                  "body"
+                ],
+                "description": "Message (SMS) a phone (U.S. only)"
+              }
+            },
+            "description": "Actions performed on back-end when scanned",
+            "required": []
+          }
+        },
+        "xml": {
+          "name": "customer"
+        },
+        "required": [
+          "design-id",
+          "name",
+          "active",
+          "created-time",
+          "link"
+        ]
+      },
+      "Scan": {
+        "type": "object",
+        "properties": {
+          "tag_name": {
+            "type": "string",
+            "description": "Name of scanned tag"
+          },
+          "scan_time": {
+            "type": "string",
+            "description": "Time of scan"
+          },
+          "ip_address": {
+            "type": "string",
+            "description": "IP address of scanning client"
+          },
+          "location": {
+            "type": "object",
+            "properties": {
+              "region": {
+                "type": "string",
+                "description": "Region (e.g. State) where scanned"
+              },
+              "country": {
+                "type": "string",
+                "description": "Country where scanned"
+              },
+              "city": {
+                "type": "string",
+                "description": "City where scanned"
+              },
+              "longitude": {
+                "type": "number",
+                "description": "Approximate longitude of scan"
+              },
+              "latitude": {
+                "type": "number",
+                "description": "Approximate latitude of scan"
+              }
+            },
+            "required": [
+              "region",
+              "country",
+              "city",
+              "longitude",
+              "latitude"
+            ]
+          }
+        },
+        "required": [
+          "tag_name",
+          "scan_time",
+          "ip_address"
+        ]
+      },
+      "ApiResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "type": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "xml": {
+          "name": "##default"
+        }
+      },
+      "Identification": {
+        "type": "object",
+        "properties": {
+          "tag-id": {
+            "type": "string",
+            "description": "Unique identifier of tag identified in image"
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Identification result"
+          }
+        },
+        "required": [
+          "tag-id",
+          "success"
+        ]
+      }
+    },
+    "requestBodies": {
+      "Pet": {
+        "description": "Pet object that needs to be added to the store",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Pet"
+            }
+          },
+          "application/xml": {
+            "schema": {
+              "$ref": "#/components/schemas/Pet"
+            }
+          }
+        }
+      },
+      "UserArray": {
+        "description": "List of user object",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "api_key": {
+        "type": "apiKey",
+        "name": "api_key",
+        "in": "header",
+        "description": "API key supplied by Spot Vision LLC"
+      }
+    }
+  },
+  "security": [
+    {
+      "api_key": []
+    }
+  ]
+}
